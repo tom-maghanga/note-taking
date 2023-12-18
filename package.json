@@ -1,23 +1,56 @@
 {
   
   "name": "intro-node",
+  
   "version": "1.0.0",
+  
   "description": "",
+  
   "main": "index.js",
+  
+  "type": "module",
+  
   "bin": {
-    "note": "./index.js"
+  
+    
+  "note": "./index.js"
+  
   },
+  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  
+    
+  "test": "echo \"Error: no test specified\" && exit 1"
+  
   },
+  
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tom-maghanga/note-taking.git"
+  
+    
+  "type": "git",
+  
+    
+  "url": "git+https://github.com/tom-maghanga/note-taking.git"
+  
   },
+  
   "author": "",
+  
   "license": "ISC",
+  
   "bugs": {
-    "url": "https://github.com/tom-maghanga/note-taking/issues"
+  
+    
+  "url": "https://github.com/tom-maghanga/note-taking/issues"
+  
   },
-  "homepage": "https://github.com/tom-maghanga/note-taking#readme"
+  
+  "homepage": "https://github.com/tom-maghanga/note-taking#readme",
+  
+  "dependencies": {
+  
+    
+  "yargs": "^17.7.2"
+  
+  }
 }
