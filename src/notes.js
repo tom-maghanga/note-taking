@@ -1,23 +1,30 @@
-import { insertDB, getDB, saveDB } from "./db";
+import { insertDB, getDB, saveDB } from "./db.js";
 
-export const newNote  = async (note) =>{
+export const newNote  = async (note, tags) =>{
     const newNote = {
         tags,
         id : Date.now(),
         content : note,
     }
 
-    await insertDB(note);
+    await insertDB(newNote);
     return newNote;
 }
 
 export const getAllNotes = async () =>{
-    const  {notes} = getDB();
-    return notes;
+    try {
+        const { notes } = await getDB(); // Assuming getDB is an asynchronous function
+        return notes;
+      } catch (error) {
+        console.error('Error fetching notes:', error);
+        throw error; // Propagate the error to the caller
+      }
 }
 
 export const findNotes = async (filter) =>{
-    const {notes} = getDB();
+    // console.log(filter);
+    const {notes} = await getDB();
+    // console.log(notes);
     return notes.filter(note => note.content.toLowerCase().includes(filter.toLowerCase()));
 }
 

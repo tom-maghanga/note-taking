@@ -1,18 +1,38 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import { findNotes, getAllNotes, newNote, removeNote, removeNotes } from './notes.js'
 
-yargs(hideBin(process.argv))
-  .command('new <note>', 'Create new note', (yargs) => {
-    return yargs.positional('note', {
-        type : 'string',
-        description : "The content of the note to create",
-    })}, (argv) => {
-    console.log(argv.note)
+const listNotes = (notes) =>{
+  notes.forEach(({id, content, tags})=>{
+    console.log("id : ", id);
+    console.log("tags : ", tags);
+    console.log("content", content);
+    console.log("\n")
   })
-  .option('tags',{
-  type: 'string',
-  description: 'tags to add to the note' })
+}
+yargs(hideBin(process.argv))
+  .command('new <note>', 'create a new note', yargs => {
+    return yargs.positional('note', {
+      describe: 'The content of the note you want to create',
+      type: 'string'
+    })
+  }, async (argv) => {
+    const tags = argv.tags ? argv.tags.split(',') : []
+    const note = await newNote(argv.note, tags)
+    console.log('Note added!', note.id)
+  })
+  .option('tags', {
+    alias: 't',
+    type: 'string',
+    description: 'tags to add to the note'
+  })
+
   .command('all', 'get all notes', () => {}, async (argv) => {
+    const allNotes = await getAllNotes();
+    // console.log(typeof(allNotes));
+    listNotes(allNotes);
+    
+    
     
   })
   .command('find <filter>', 'get matching notes', yargs => {
@@ -21,6 +41,9 @@ yargs(hideBin(process.argv))
       type: 'string'
     })
   }, async (argv) => {
+    // console.log(argv.filter);
+    const matches = await findNotes(argv.filter);
+    console.log(matches);
     
   })
   .command('remove <id>', 'remove a note by id', yargs => {
@@ -29,6 +52,8 @@ yargs(hideBin(process.argv))
       description: 'The id of the note you want to remove'
     })
   }, async (argv) => {
+    const id = await removeNote(argv.id)
+    console.log(id);
     
   })
   .command('web [port]', 'launch website to see notes', yargs => {
@@ -40,9 +65,11 @@ yargs(hideBin(process.argv))
       })
   }, async (argv) => {
     
+    
   })
   .command('clean', 'remove all notes', () => {}, async (argv) => {
-    
+    await removeNotes();
+    console.log('db is reset');
   })
   .demandCommand(1)
   .parse()

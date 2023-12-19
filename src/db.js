@@ -1,10 +1,18 @@
 import fs from "node:fs/promises"
 
-const DB_PATH = new URL('../db.json', import.meta.url).pathname;
+
+const DB_PATH = new URL('../db.json', import.meta.url).pathname.substring(1);
 
 export const getDB = async () =>{
-    const db  = await fs.readFile(DB_PATH, 'utf-8');
-    return JSON.parse(db);
+ 
+    try {
+        const db = await fs.readFile(DB_PATH, 'utf-8');
+        // console.log(2);
+        return JSON.parse(db);
+      } catch (error) {
+        console.error('Error reading database:', error);
+        throw error; // Propagate the error to the caller
+      }
 }
 
 export const saveDB = async(db) =>{
