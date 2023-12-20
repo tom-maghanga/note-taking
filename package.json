@@ -20,7 +20,7 @@
   "scripts": {
   
     
-  "test": "echo \"Error: no test specified\" && exit 1"
+  "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js "
   
   },
   
@@ -48,6 +48,9 @@
   "homepage": "https://github.com/tom-maghanga/note-taking#readme",
   
   "dependencies": {
+  
+    
+  "jest": "^29.7.0",
   
     
   "yargs": "^17.7.2"
